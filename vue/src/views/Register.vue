@@ -65,7 +65,7 @@
               block
               w-full
               appearance-none
-              rounded-none rounded-t-md
+              rounded-none
               border border-gray-300
               px-3
               py-2
@@ -93,7 +93,7 @@
               block
               w-full
               appearance-none
-              rounded-none rounded-b-md
+              rounded-none
               border border-gray-300
               px-3
               py-2
