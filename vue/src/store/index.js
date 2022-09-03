@@ -1,15 +1,10 @@
 import { createStore } from "vuex";
-
+import axios from "axios";
 const store = createStore({
   state: {
     user: {
-      data: {
-        name: "Tom Cook",
-        email: "tom@example.com",
-        imageUrl:
-          "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-      },
-      token: 2,
+      data: {},
+      token: sessionStorage.getItem("TOKEN"),
     },
   },
   getters: {
@@ -22,8 +17,23 @@ const store = createStore({
       state.user.data = {};
       state.user.token = null;
     },
+    setUser: (state, userData) => {
+      console.log(userData);
+      state.user.token = userData.token;
+      state.user.data = userData.user;
+      sessionStorage.setItem("TOKEN", userData.token);
+    },
   },
-  actions: {},
+  actions: {
+    register: function (context, user) {
+      return axios
+        .post("http://127.0.0.1:8000/api/register", user)
+        .then((response) => {
+          context.commit("setUser", response.data);
+          return response.data;
+        });
+    },
+  },
   modules: {},
 });
 

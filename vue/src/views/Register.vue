@@ -21,7 +21,7 @@
         >
       </p>
     </div>
-    <form class="mt-8 space-y-6" action="#" method="POST">
+    <form class="mt-8 space-y-6" @submit.prevent="register">
       <input type="hidden" name="remember" value="true" />
       <div class="-space-y-px rounded-md shadow-sm">
         <div>
@@ -50,6 +50,7 @@
               sm:text-sm
             "
             placeholder="Full name"
+            v-model="user.name"
           />
         </div>
         <div>
@@ -78,6 +79,7 @@
               sm:text-sm
             "
             placeholder="Email address"
+            v-model="user.email"
           />
         </div>
         <div>
@@ -106,6 +108,7 @@
               sm:text-sm
             "
             placeholder="Password"
+            v-model="user.password"
           />
         </div>
         <div>
@@ -134,6 +137,7 @@
               sm:text-sm
             "
             placeholder="Confirm Password"
+            v-model="user.password_confirmation"
           />
         </div>
       </div>
@@ -174,6 +178,28 @@
   </div>
 </template>
 
-<script setup>
+<script>
 import { LockClosedIcon } from "@heroicons/vue/20/solid";
+export default {
+  components: {
+    LockClosedIcon,
+  },
+  data() {
+    return {
+      user: {
+        name: "",
+        email: "",
+        password: "",
+        password_confirmation: "",
+      },
+    };
+  },
+  methods: {
+    register: function (evt) {
+      this.$store.dispatch("register", this.user).then((res) => {
+        this.$router.push({ name: "dashboard" });
+      });
+    },
+  },
+};
 </script>
