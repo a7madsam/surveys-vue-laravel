@@ -52,7 +52,7 @@
                     <span class="sr-only">Open user menu</span>
                     <img
                       class="h-8 w-8 rounded-full"
-                      :src="user.imageUrl"
+                      :src="getUser.imageUrl"
                       alt=""
                     />
                   </MenuButton>
@@ -81,18 +81,20 @@
                       focus:outline-none
                     "
                   >
-                    <MenuItem
-                      v-for="item in userNavigation"
-                      :key="item.name"
-                      v-slot="{ active }"
-                    >
+                    <MenuItem @click="yourProfile">
                       <a
-                        :href="item.href"
                         :class="[
-                          active ? 'bg-gray-100' : '',
-                          'block px-4 py-2 text-sm text-gray-700',
+                          'block px-4 py-2 text-sm text-gray-700 cursor-pointer',
                         ]"
-                        >{{ item.name }}</a
+                        >Your Profile</a
+                      >
+                    </MenuItem>
+                    <MenuItem @click="logout">
+                      <a
+                        :class="[
+                          'block px-4 py-2 text-sm text-gray-700 cursor-pointer',
+                        ]"
+                        >Sign Out</a
                       >
                     </MenuItem>
                   </MenuItems>
@@ -150,23 +152,24 @@
         <div class="border-t border-gray-700 pt-4 pb-3">
           <div class="flex items-center px-5">
             <div class="flex-shrink-0">
-              <img class="h-10 w-10 rounded-full" :src="user.imageUrl" alt="" />
+              <img
+                class="h-10 w-10 rounded-full"
+                :src="getUser.imageUrl"
+                alt=""
+              />
             </div>
             <div class="ml-3">
               <div class="text-base font-medium leading-none text-white">
-                {{ user.name }}
+                {{ getUser.name }}
               </div>
               <div class="text-sm font-medium leading-none text-gray-400">
-                {{ user.email }}
+                {{ getUser.email }}
               </div>
             </div>
           </div>
           <div class="mt-3 space-y-1 px-2">
             <DisclosureButton
-              v-for="item in userNavigation"
-              :key="item.name"
               as="a"
-              :href="item.href"
               class="
                 block
                 rounded-md
@@ -176,8 +179,26 @@
                 font-medium
                 text-gray-400
                 hover:bg-gray-700 hover:text-white
+                cursor-pointer
               "
-              >{{ item.name }}</DisclosureButton
+              @click="yourProfile"
+              >Your Profile</DisclosureButton
+            >
+            <DisclosureButton
+              as="a"
+              class="
+                block
+                rounded-md
+                px-3
+                py-2
+                text-base
+                font-medium
+                text-gray-400
+                hover:bg-gray-700 hover:text-white
+                cursor-pointer
+              "
+              @click="logout"
+              >Sign Out</DisclosureButton
             >
           </div>
         </div>
@@ -198,6 +219,7 @@ import {
   MenuItems,
 } from "@headlessui/vue";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/vue/24/outline";
+import { mapGetters } from "vuex";
 export default {
   components: {
     Disclosure,
@@ -213,21 +235,23 @@ export default {
   },
   data() {
     return {
-      user: {
-        name: "Tom Cook",
-        email: "tom@example.com",
-        imageUrl:
-          "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-      },
       navigation: [
         { name: "Dashboard", to: { name: "dashboard" } },
         { name: "Surveys", to: { name: "surveys" } },
       ],
-      userNavigation: [
-        { name: "Your Profile", href: "#" },
-        { name: "Sign out", href: "#" },
-      ],
     };
+  },
+  computed: {
+    ...mapGetters(["getUser"]),
+  },
+  methods: {
+    logout: function (evt) {
+      this.$store.commit("logout");
+      this.$router.push({ name: "login" });
+    },
+    yourProfile: function (evt) {
+      this.$router.push({ name: "yourProfile" });
+    },
   },
 };
 </script>
