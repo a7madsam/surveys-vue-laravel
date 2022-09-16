@@ -23,6 +23,12 @@
     </div>
     <form class="mt-8 space-y-6" @submit.prevent="register">
       <input type="hidden" name="remember" value="true" />
+      <Alert
+        v-if="errors"
+        description="Invalid Input"
+        :errorList="errors"
+        @hide="hide"
+      />
       <div class="-space-y-px rounded-md shadow-sm">
         <div>
           <label for="full-name-address" class="sr-only">Full Name</label>
@@ -180,9 +186,11 @@
 
 <script>
 import { LockClosedIcon } from "@heroicons/vue/20/solid";
+import Alert from "../components/Alert.vue";
 export default {
   components: {
     LockClosedIcon,
+    Alert,
   },
   data() {
     return {
@@ -192,13 +200,22 @@ export default {
         password: "",
         password_confirmation: "",
       },
+      errors: null,
     };
   },
   methods: {
     register: function (evt) {
-      this.$store.dispatch("register", this.user).then((res) => {
-        this.$router.push({ name: "dashboard" });
-      });
+      this.$store
+        .dispatch("register", this.user)
+        .then((res) => {
+          this.$router.push({ name: "dashboard" });
+        })
+        .catch((error) => {
+          this.errors = error.response.data.errors;
+        });
+    },
+    hide: function () {
+      this.errors = null;
     },
   },
 };

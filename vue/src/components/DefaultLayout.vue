@@ -245,9 +245,10 @@ export default {
     ...mapGetters(["getUser"]),
   },
   methods: {
-    logout: function (evt) {
-      this.$store.commit("logout");
-      this.$router.push({ name: "login" });
+    logout: function () {
+      this.$store.dispatch("logout").then(() => {
+        this.$router.push({ name: "login" });
+      });
     },
     yourProfile: function (evt) {
       this.$router.push({ name: "yourProfile" });

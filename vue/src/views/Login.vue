@@ -21,7 +21,13 @@
         >
       </p>
     </div>
-    <form class="mt-8 space-y-6" action="#" method="POST">
+    <form class="mt-8 space-y-6" @submit.prevent="login">
+      <Alert
+        v-if="errors"
+        description="Invalid Credentials"
+        :errorList="errors"
+        @hide="hide"
+      />
       <input type="hidden" name="remember" value="true" />
       <div class="-space-y-px rounded-md shadow-sm">
         <div>
@@ -50,6 +56,7 @@
               sm:text-sm
             "
             placeholder="Email address"
+            v-model.trim="credentials.email"
           />
         </div>
         <div>
@@ -78,10 +85,10 @@
               sm:text-sm
             "
             placeholder="Password"
+            v-model="credentials.password"
           />
         </div>
       </div>
-
       <div class="flex items-center justify-between">
         <div class="flex items-center">
           <input
@@ -96,17 +103,12 @@
               text-indigo-600
               focus:ring-indigo-500
             "
+            v-model="credentials.rememberMe"
           />
           <label for="remember-me" class="ml-2 block text-sm text-gray-900"
             >Remember me</label
           >
         </div>
-
-        <!-- <div class="text-sm">
-          <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500"
-            >Forgot your password?</a
-          >
-        </div> -->
       </div>
 
       <div>
@@ -146,6 +148,39 @@
   </div>
 </template>
 
-<script setup>
+<script>
 import { LockClosedIcon } from "@heroicons/vue/20/solid";
+import Alert from "../components/Alert.vue";
+export default {
+  components: {
+    LockClosedIcon,
+    Alert,
+  },
+  data() {
+    return {
+      credentials: {
+        email: "",
+        password: "",
+        rememberMe: false,
+      },
+      errors: null,
+    };
+  },
+  methods: {
+    login: function () {
+      console.log(this.credentials);
+      this.$store
+        .dispatch("login", this.credentials)
+        .then((res) => {
+          this.$router.push({ name: "dashboard" });
+        })
+        .catch((error) => {
+          this.errors = error.response.data.errors;
+        });
+    },
+    hide: function () {
+      this.errors = null;
+    },
+  },
+};
 </script>

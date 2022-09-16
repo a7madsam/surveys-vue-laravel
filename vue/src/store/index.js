@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-import axios from "axios";
+import Axios from "../axios";
 const store = createStore({
   state: {
     user: {
@@ -16,6 +16,7 @@ const store = createStore({
     logout: (state) => {
       state.user.data = {};
       state.user.token = null;
+      sessionStorage.removeItem("TOKEN");
     },
     setUser: (state, userData) => {
       console.log(userData);
@@ -26,12 +27,22 @@ const store = createStore({
   },
   actions: {
     register: function (context, user) {
-      return axios
-        .post("http://127.0.0.1:8000/api/register", user)
-        .then((response) => {
-          context.commit("setUser", response.data);
-          return response.data;
-        });
+      return Axios.post("/register", user).then(({ data }) => {
+        context.commit("setUser", data);
+        return data;
+      });
+    },
+    login: function (context, credentials) {
+      return Axios.post("/login", credentials).then(({ data }) => {
+        context.commit("setUser", data);
+        return data;
+      });
+    },
+    logout: function (context) {
+      return Axios.post("logout").then((response) => {
+        context.commit("logout");
+        return response;
+      });
     },
   },
   modules: {},
