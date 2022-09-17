@@ -6,6 +6,8 @@ import DefaultLayout from "../components/DefaultLayout.vue";
 import AuthLayout from "../components/AuthLayout.vue";
 import Surveys from "../views/Surveys.vue";
 import YourProfile from "../views/YourProfile.vue";
+import CreateSurvey from "../views/CreateSurvey.vue";
+import EditSurvey from "../views/EditSurvey.vue";
 import store from "../store";
 
 const routes = [
@@ -31,6 +33,16 @@ const routes = [
         path: "/your-profile",
         name: "yourProfile",
         component: YourProfile,
+      },
+      {
+        path: "/surveys/create",
+        name: "createSurvey",
+        component: CreateSurvey,
+      },
+      {
+        path: "/surveys/:id",
+        name: "editSurvey",
+        component: EditSurvey,
       },
     ],
   },
