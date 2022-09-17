@@ -149,17 +149,21 @@ export default {
     deleteSurvey: function (survey) {
       this.$swal({
         titleText: `Are you sure you want to delete this survey?`,
-        text: "This operation can't be revert!!",
+        html: `<div style="color: red">This operation can't be revert!!</div>`,
         icon: "question",
         confirmButtonText: "Yes",
         cancelButtonText: "No",
         showCancelButton: true,
         showLoaderOnConfirm: true,
+        preConfirm: () => {
+          return this.surveys.id;
+        },
         backdrop: true,
         allowOutsideClick: () => !this.$swal.isLoading(),
       }).then((result) => {
-        // TODO:: put what will happen if approved or deny
-        console.log(result);
+        if (result.isConfirmed) {
+          // delete survey
+        }
       });
     },
   },
