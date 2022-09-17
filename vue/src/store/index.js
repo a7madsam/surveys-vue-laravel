@@ -167,7 +167,7 @@ const store = createStore({
   },
   getters: {
     getUser: function (state) {
-      return state.user.data;
+      return JSON.parse(sessionStorage.getItem("USER"));
     },
   },
   mutations: {
@@ -177,9 +177,12 @@ const store = createStore({
       sessionStorage.removeItem("TOKEN");
     },
     setUser: (state, userData) => {
-      console.log(userData);
       state.user.token = userData.token;
       state.user.data = userData.user;
+      sessionStorage.setItem(
+        "USER",
+        JSON.stringify({ name: userData.user.name, email: userData.user.email })
+      );
       sessionStorage.setItem("TOKEN", userData.token);
     },
   },

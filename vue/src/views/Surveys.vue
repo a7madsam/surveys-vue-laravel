@@ -3,10 +3,7 @@
     <PageComponent>
       <template v-slot:header>
         <div class="flex justify-between items-center">
-          <h1
-            class="text-3xl font-bold tracking-tight text-gray-900"
-            :name="name"
-          >
+          <h1 class="text-3xl font-bold tracking-tight text-gray-900">
             Surveys
           </h1>
           <router-link

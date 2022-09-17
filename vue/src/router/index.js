@@ -6,8 +6,7 @@ import DefaultLayout from "../components/DefaultLayout.vue";
 import AuthLayout from "../components/AuthLayout.vue";
 import Surveys from "../views/Surveys.vue";
 import YourProfile from "../views/YourProfile.vue";
-import CreateSurvey from "../views/CreateSurvey.vue";
-import EditSurvey from "../views/EditSurvey.vue";
+import SurveyView from "../views/SurveyView.vue";
 import store from "../store";
 
 const routes = [
@@ -37,12 +36,12 @@ const routes = [
       {
         path: "/surveys/create",
         name: "createSurvey",
-        component: CreateSurvey,
+        component: SurveyView,
       },
       {
         path: "/surveys/:id",
         name: "editSurvey",
-        component: EditSurvey,
+        component: SurveyView,
       },
     ],
   },
