@@ -33,6 +33,26 @@ const surveys = [
     ],
   },
   {
+    id: 537,
+    image_url: null,
+    title: "wew",
+    slug: "wew",
+    status: true,
+    description: "qwe",
+    created_at: "2022-09-17 13:50:04",
+    updated_at: "2022-09-17 13:50:04",
+    expire_date: "2022-09-30",
+    questions: [
+      {
+        id: 576,
+        type: "text",
+        question: "qweq",
+        description: "qweqweqewqweqweqwe",
+        data: [],
+      },
+    ],
+  },
+  {
     id: 536,
     image_url: null,
     title: "newone",
@@ -164,6 +184,7 @@ const store = createStore({
       token: sessionStorage.getItem("TOKEN"),
     },
     surveys,
+    questionTypes: ["text", "select", "radio", "checkbox", "textarea"],
   },
   getters: {
     getUser: function (state) {

@@ -73,6 +73,8 @@
               >
                 <input
                   type="file"
+                  @change="setImage"
+                  accept="image/png, image/gif, image/jpeg"
                   class="
                     absolute
                     left-0
@@ -212,8 +214,18 @@
               Add Question
             </button>
           </h3>
+
           <div v-if="!model.questions.length" class="text-center text-gray-600">
             You don't have any questions created
+          </div>
+          <div v-for="(question, index) in model.questions" :key="question.id">
+            <QuestionEditor
+              :question="question"
+              :index="index"
+              @change="questionChange"
+              @addQuestion="addQuestion"
+              @deleteQuestion="deleteQuestion"
+            />
           </div>
         </div>
         <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
@@ -248,9 +260,12 @@
 
 <script>
 import PageComponent from "../components/PageComponent.vue";
+import QuestionEditor from "../components/editor/QuestionEditor.vue";
+import { v4 as uuidv4 } from "uuid";
 export default {
   components: {
     PageComponent,
+    QuestionEditor,
   },
   data() {
     return {
@@ -273,7 +288,38 @@ export default {
   },
   methods: {
     saveSurvey: function () {},
-    addQuestion: function () {},
+    addQuestion: function (index) {
+      const newQuestion = {
+        id: uuidv4(),
+        type: "text",
+        question: "",
+        description: null,
+        data: {
+          options: [],
+        },
+      };
+      this.model.questions.splice(
+        index || this.model.questions.length,
+        0,
+        newQuestion
+      );
+    },
+    deleteQuestion: function (question) {
+      this.model.questions = this.model.questions.filter((ques) => {
+        return ques !== question;
+      });
+    },
+    setImage: function (e) {
+      console.log(e);
+    },
+    questionChange: function (question) {
+      this.model.questions = this.model.questions.map((ques) => {
+        if (question.id === ques.id) {
+          return JSON.parse(JSON.stringify(question));
+        }
+        return ques;
+      });
+    },
   },
 };
 </script>
