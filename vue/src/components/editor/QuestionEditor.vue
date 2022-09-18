@@ -266,7 +266,6 @@ export default {
     },
     typeChange: function () {
       if (this.shouldHaveOption()) {
-        console.log(this.getOptions());
         this.setOptions(this.getOptions() || []);
       }
       this.dataChange();
@@ -285,10 +284,12 @@ export default {
     },
     dataChange: function () {
       const data = this.ques;
+      const temp = data.data.options;
       if (!this.shouldHaveOption()) {
         delete data.data.options;
       }
       this.$emit("change", data);
+      this.setOptions(temp);
     },
   },
 };
