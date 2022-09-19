@@ -168,7 +168,6 @@ export default {
   },
   methods: {
     login: function () {
-      console.log(this.credentials);
       this.$store
         .dispatch("login", this.credentials)
         .then((res) => {

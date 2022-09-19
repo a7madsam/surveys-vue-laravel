@@ -7,7 +7,7 @@
             Surveys
           </h1>
           <router-link
-            :to="{ name: 'createSurvey' }"
+            :to="{ name: 'SurveyCreate' }"
             class="
               text-white
               bg-blue-700
@@ -69,7 +69,7 @@
           <div v-html="survey.description" class="overflow-hidden flex-1"></div>
           <div class="flex justify-between items-center mt-3">
             <router-link
-              :to="{ name: 'editSurvey', params: { id: survey.id } }"
+              :to="{ name: 'SurveyView', params: { id: survey.id } }"
               class="
                 flex
                 py-2

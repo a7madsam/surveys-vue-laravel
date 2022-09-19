@@ -1,189 +1,189 @@
 import { createStore } from "vuex";
 import Axios from "../axios";
-const surveys = [
-  {
-    id: 536,
-    image_url: null,
-    title: "newone",
-    slug: "newone",
-    status: true,
-    description: "qqwertyuio",
-    created_at: "2022-09-17 07:39:59",
-    updated_at: "2022-09-17 07:39:59",
-    expire_date: "2022-09-19",
-    questions: [
-      {
-        id: 575,
-        type: "select",
-        question: "hi",
-        description: "jhkjh",
-        data: {
-          options: [
-            {
-              uuid: "65833d40-cfda-462f-a643-0d3a7624b83a",
-              text: "1",
-            },
-            {
-              uuid: "48d9d353-955b-4314-b8ce-de5e465cc2e5",
-              text: "2",
-            },
-          ],
-        },
-      },
-    ],
-  },
-  {
-    id: 537,
-    image_url: null,
-    title: "wew",
-    slug: "wew",
-    status: true,
-    description: "qwe",
-    created_at: "2022-09-17 13:50:04",
-    updated_at: "2022-09-17 13:50:04",
-    expire_date: "2022-09-30",
-    questions: [
-      {
-        id: 576,
-        type: "text",
-        question: "qweq",
-        description: "qweqweqewqweqweqwe",
-        data: [],
-      },
-    ],
-  },
-  {
-    id: 536,
-    image_url: null,
-    title: "newone",
-    slug: "newone",
-    status: true,
-    description: "qqwertyuio",
-    created_at: "2022-09-17 07:39:59",
-    updated_at: "2022-09-17 07:39:59",
-    expire_date: "2022-09-19",
-    questions: [
-      {
-        id: 575,
-        type: "select",
-        question: "hi",
-        description: "jhkjh",
-        data: {
-          options: [
-            {
-              uuid: "65833d40-cfda-462f-a643-0d3a7624b83a",
-              text: "1",
-            },
-            {
-              uuid: "48d9d353-955b-4314-b8ce-de5e465cc2e5",
-              text: "2",
-            },
-          ],
-        },
-      },
-    ],
-  },
-  {
-    id: 536,
-    image_url: null,
-    title: "newone",
-    slug: "newone",
-    status: true,
-    description: "qqwertyuio",
-    created_at: "2022-09-17 07:39:59",
-    updated_at: "2022-09-17 07:39:59",
-    expire_date: "2022-09-19",
-    questions: [
-      {
-        id: 575,
-        type: "select",
-        question: "hi",
-        description: "jhkjh",
-        data: {
-          options: [
-            {
-              uuid: "65833d40-cfda-462f-a643-0d3a7624b83a",
-              text: "1",
-            },
-            {
-              uuid: "48d9d353-955b-4314-b8ce-de5e465cc2e5",
-              text: "2",
-            },
-          ],
-        },
-      },
-    ],
-  },
-  {
-    id: 536,
-    image_url: null,
-    title: "newone",
-    slug: "newone",
-    status: true,
-    description: "qqwertyuio",
-    created_at: "2022-09-17 07:39:59",
-    updated_at: "2022-09-17 07:39:59",
-    expire_date: "2022-09-19",
-    questions: [
-      {
-        id: 575,
-        type: "select",
-        question: "hi",
-        description: "jhkjh",
-        data: {
-          options: [
-            {
-              uuid: "65833d40-cfda-462f-a643-0d3a7624b83a",
-              text: "1",
-            },
-            {
-              uuid: "48d9d353-955b-4314-b8ce-de5e465cc2e5",
-              text: "2",
-            },
-          ],
-        },
-      },
-    ],
-  },
-  {
-    id: 536,
-    image_url: null,
-    title: "newone",
-    slug: "newone",
-    status: true,
-    description: "qqwertyuio",
-    created_at: "2022-09-17 07:39:59",
-    updated_at: "2022-09-17 07:39:59",
-    expire_date: "2022-09-19",
-    questions: [
-      {
-        id: 575,
-        type: "select",
-        question: "hi",
-        description: "jhkjh",
-        data: {
-          options: [
-            {
-              uuid: "65833d40-cfda-462f-a643-0d3a7624b83a",
-              text: "1",
-            },
-            {
-              uuid: "48d9d353-955b-4314-b8ce-de5e465cc2e5",
-              text: "2",
-            },
-          ],
-        },
-      },
-    ],
-  },
-];
+// const surveys = [
+//   {
+//     id: 536,
+//     image_url: null,
+//     title: "newone",
+//     slug: "newone",
+//     status: true,
+//     description: "qqwertyuio",
+//     created_at: "2022-09-17 07:39:59",
+//     updated_at: "2022-09-17 07:39:59",
+//     expire_date: "2022-09-19",
+//     questions: [
+//       {
+//         id: 575,
+//         type: "select",
+//         question: "hi",
+//         description: "jhkjh",
+//         data: {
+//           options: [
+//             {
+//               uuid: "65833d40-cfda-462f-a643-0d3a7624b83a",
+//               text: "1",
+//             },
+//             {
+//               uuid: "48d9d353-955b-4314-b8ce-de5e465cc2e5",
+//               text: "2",
+//             },
+//           ],
+//         },
+//       },
+//     ],
+//   },
+//   {
+//     id: 537,
+//     image_url: null,
+//     title: "wew",
+//     slug: "wew",
+//     status: true,
+//     description: "qwe",
+//     created_at: "2022-09-17 13:50:04",
+//     updated_at: "2022-09-17 13:50:04",
+//     expire_date: "2022-09-30",
+//     questions: [
+//       {
+//         id: 576,
+//         type: "text",
+//         question: "qweq",
+//         description: "qweqweqewqweqweqwe",
+//         data: [],
+//       },
+//     ],
+//   },
+//   {
+//     id: 536,
+//     image_url: null,
+//     title: "newone",
+//     slug: "newone",
+//     status: true,
+//     description: "qqwertyuio",
+//     created_at: "2022-09-17 07:39:59",
+//     updated_at: "2022-09-17 07:39:59",
+//     expire_date: "2022-09-19",
+//     questions: [
+//       {
+//         id: 575,
+//         type: "select",
+//         question: "hi",
+//         description: "jhkjh",
+//         data: {
+//           options: [
+//             {
+//               uuid: "65833d40-cfda-462f-a643-0d3a7624b83a",
+//               text: "1",
+//             },
+//             {
+//               uuid: "48d9d353-955b-4314-b8ce-de5e465cc2e5",
+//               text: "2",
+//             },
+//           ],
+//         },
+//       },
+//     ],
+//   },
+//   {
+//     id: 536,
+//     image_url: null,
+//     title: "newone",
+//     slug: "newone",
+//     status: true,
+//     description: "qqwertyuio",
+//     created_at: "2022-09-17 07:39:59",
+//     updated_at: "2022-09-17 07:39:59",
+//     expire_date: "2022-09-19",
+//     questions: [
+//       {
+//         id: 575,
+//         type: "select",
+//         question: "hi",
+//         description: "jhkjh",
+//         data: {
+//           options: [
+//             {
+//               uuid: "65833d40-cfda-462f-a643-0d3a7624b83a",
+//               text: "1",
+//             },
+//             {
+//               uuid: "48d9d353-955b-4314-b8ce-de5e465cc2e5",
+//               text: "2",
+//             },
+//           ],
+//         },
+//       },
+//     ],
+//   },
+//   {
+//     id: 536,
+//     image_url: null,
+//     title: "newone",
+//     slug: "newone",
+//     status: true,
+//     description: "qqwertyuio",
+//     created_at: "2022-09-17 07:39:59",
+//     updated_at: "2022-09-17 07:39:59",
+//     expire_date: "2022-09-19",
+//     questions: [
+//       {
+//         id: 575,
+//         type: "select",
+//         question: "hi",
+//         description: "jhkjh",
+//         data: {
+//           options: [
+//             {
+//               uuid: "65833d40-cfda-462f-a643-0d3a7624b83a",
+//               text: "1",
+//             },
+//             {
+//               uuid: "48d9d353-955b-4314-b8ce-de5e465cc2e5",
+//               text: "2",
+//             },
+//           ],
+//         },
+//       },
+//     ],
+//   },
+//   {
+//     id: 536,
+//     image_url: null,
+//     title: "newone",
+//     slug: "newone",
+//     status: true,
+//     description: "qqwertyuio",
+//     created_at: "2022-09-17 07:39:59",
+//     updated_at: "2022-09-17 07:39:59",
+//     expire_date: "2022-09-19",
+//     questions: [
+//       {
+//         id: 575,
+//         type: "select",
+//         question: "hi",
+//         description: "jhkjh",
+//         data: {
+//           options: [
+//             {
+//               uuid: "65833d40-cfda-462f-a643-0d3a7624b83a",
+//               text: "1",
+//             },
+//             {
+//               uuid: "48d9d353-955b-4314-b8ce-de5e465cc2e5",
+//               text: "2",
+//             },
+//           ],
+//         },
+//       },
+//     ],
+//   },
+// ];
 const store = createStore({
   state: {
     user: {
       data: {},
       token: sessionStorage.getItem("TOKEN"),
     },
-    surveys,
+    surveys: [],
     questionTypes: ["text", "select", "radio", "checkbox", "textarea"],
   },
   getters: {
@@ -206,6 +206,17 @@ const store = createStore({
       );
       sessionStorage.setItem("TOKEN", userData.token);
     },
+    updateSurvey: function (state, survey) {
+      state.surveys.map((e) => {
+        if (e.id === survey.data.id) {
+          return survey.data;
+        }
+        return s;
+      });
+    },
+    saveSurvey: function (state, survey) {
+      state.surveys = [...state.surveys, survey.data];
+    },
   },
   actions: {
     register: function (context, user) {
@@ -225,6 +236,21 @@ const store = createStore({
         context.commit("logout");
         return response;
       });
+    },
+    saveSurvey: function (context, survey) {
+      let response;
+      if (survey.id) {
+        response = Axios.put(`/survey/${survey.id}`, survey).then((result) => {
+          context.commit("updateSurvey", result.data);
+          return result.data;
+        });
+      } else {
+        response = Axios.post(`/survey`, survey).then((result) => {
+          context.commit("saveSurvey", result.data);
+          return result;
+        });
+      }
+      return response;
     },
   },
   modules: {},

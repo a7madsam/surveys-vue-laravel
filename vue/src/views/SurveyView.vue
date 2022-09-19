@@ -287,7 +287,22 @@ export default {
     }
   },
   methods: {
-    saveSurvey: function () {},
+    /**
+     * Create OR Update survey
+     */
+    saveSurvey: function () {
+      this.$store
+        .dispatch("saveSurvey", this.model)
+        .then(({ data }) => {
+          this.$router.push({
+            name: "SurveyView",
+            params: {
+              id: data.data.id,
+            },
+          });
+        })
+        .catch((e) => {});
+    },
     addQuestion: function (index) {
       const newQuestion = {
         id: uuidv4(),
@@ -310,7 +325,6 @@ export default {
       });
     },
     setImage: function (e) {
-      console.log(e);
     },
     questionChange: function (question) {
       this.model.questions = this.model.questions.map((ques) => {
