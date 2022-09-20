@@ -238,6 +238,7 @@ const store = createStore({
       });
     },
     saveSurvey: function (context, survey) {
+      delete survey.image_url;
       let response;
       if (survey.id) {
         response = Axios.put(`/survey/${survey.id}`, survey).then((result) => {

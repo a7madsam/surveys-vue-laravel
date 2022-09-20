@@ -13,15 +13,15 @@
         <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
           <div>
             <label
-              v-if="!model.image"
+              v-if="!model.image_url"
               class="block ml-2 text-sm font-medium text-gray-700"
             >
               Image
             </label>
             <div class="mt-1 flex items-center">
               <img
-                v-if="model.image"
-                :src="model.image"
+                v-if="model.image_url"
+                :src="model.image_url"
                 :alt="model.title"
                 class="w-64 h-84 object-cover"
               />
@@ -274,6 +274,7 @@ export default {
         status: false,
         description: null,
         image: null,
+        image_url: null,
         expire_date: null,
         questions: [],
       },
@@ -325,6 +326,13 @@ export default {
       });
     },
     setImage: function (e) {
+      const imgFile = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.model.image = reader.result;
+        this.model.image_url = reader.result;
+      };
+      reader.readAsDataURL(imgFile);
     },
     questionChange: function (question) {
       this.model.questions = this.model.questions.map((ques) => {
