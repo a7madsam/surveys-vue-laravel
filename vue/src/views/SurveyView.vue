@@ -282,10 +282,17 @@ export default {
   },
   mounted() {
     if (this.$route.params.id) {
-      this.model = this.$store.state.surveys.find((survey) => {
-        return survey.id === parseInt(this.$route.params.id);
-      });
+      console.log("ahmad");
+      this.$store.dispatch("getSurvey", this.$route.params.id);
     }
+  },
+  watch: {
+    "$store.state.currentSurvey.data": function (newVal, oldVal) {
+      this.model = {
+        ...JSON.parse(JSON.stringify(newVal)),
+        status: newVal.status !== "draft",
+      };
+    },
   },
   methods: {
     /**

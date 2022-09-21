@@ -184,11 +184,18 @@ const store = createStore({
       token: sessionStorage.getItem("TOKEN"),
     },
     surveys: [],
+    currentSurvey: {
+      isLoading: false,
+      data: {},
+    },
     questionTypes: ["text", "select", "radio", "checkbox", "textarea"],
   },
   getters: {
     getUser: function (state) {
       return JSON.parse(sessionStorage.getItem("USER"));
+    },
+    getCurrentSurvey: function (state) {
+      return state.currentSurvey.data;
     },
   },
   mutations: {
@@ -206,16 +213,11 @@ const store = createStore({
       );
       sessionStorage.setItem("TOKEN", userData.token);
     },
-    updateSurvey: function (state, survey) {
-      state.surveys.map((e) => {
-        if (e.id === survey.data.id) {
-          return survey.data;
-        }
-        return s;
-      });
+    setCurrentSurveyLoading: function (state, _isLoading) {
+      state.currentSurvey.isLoading = _isLoading;
     },
-    saveSurvey: function (state, survey) {
-      state.surveys = [...state.surveys, survey.data];
+    setCurrentSurvey: function (state, survey) {
+      state.currentSurvey.data = survey.data;
     },
   },
   actions: {
@@ -242,16 +244,24 @@ const store = createStore({
       let response;
       if (survey.id) {
         response = Axios.put(`/survey/${survey.id}`, survey).then((result) => {
-          context.commit("updateSurvey", result.data);
+          context.commit("setCurrentSurvey", result.data);
           return result.data;
         });
       } else {
         response = Axios.post(`/survey`, survey).then((result) => {
-          context.commit("saveSurvey", result.data);
+          context.commit("setCurrentSurvey", result.data);
           return result;
         });
       }
       return response;
+    },
+    getSurvey: function (context, id) {
+      context.commit("setCurrentSurveyLoading", true);
+      return Axios.get(`/survey/${id}`).then((result) => {
+        context.commit("setCurrentSurvey", result.data);
+        context.commit("setCurrentSurveyLoading", false);
+        return result.data.data;
+      });
     },
   },
   modules: {},

@@ -77,13 +77,15 @@ class SurveyController extends Controller
         if (isset($data['image'])) {
             $relativePath = $this->saveImage($data['image']);
             $data['image'] = $relativePath;
+            
+            if ($survey->image) {
+                $absolutePath = public_path($survey->image);
+                File::delete($absolutePath);
+            }
         }
 
         //what if there is an old image ?
-        if ($survey->image) {
-            $absolutePath = public_path($survey->image);
-            File::delete($absolutePath);
-        }
+
 
         $survey->update($data);
         return new SurveyResource($survey);
