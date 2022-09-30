@@ -1,189 +1,15 @@
 import { createStore } from "vuex";
 import Axios from "../axios";
-// const surveys = [
-//   {
-//     id: 536,
-//     image_url: null,
-//     title: "newone",
-//     slug: "newone",
-//     status: true,
-//     description: "qqwertyuio",
-//     created_at: "2022-09-17 07:39:59",
-//     updated_at: "2022-09-17 07:39:59",
-//     expire_date: "2022-09-19",
-//     questions: [
-//       {
-//         id: 575,
-//         type: "select",
-//         question: "hi",
-//         description: "jhkjh",
-//         data: {
-//           options: [
-//             {
-//               uuid: "65833d40-cfda-462f-a643-0d3a7624b83a",
-//               text: "1",
-//             },
-//             {
-//               uuid: "48d9d353-955b-4314-b8ce-de5e465cc2e5",
-//               text: "2",
-//             },
-//           ],
-//         },
-//       },
-//     ],
-//   },
-//   {
-//     id: 537,
-//     image_url: null,
-//     title: "wew",
-//     slug: "wew",
-//     status: true,
-//     description: "qwe",
-//     created_at: "2022-09-17 13:50:04",
-//     updated_at: "2022-09-17 13:50:04",
-//     expire_date: "2022-09-30",
-//     questions: [
-//       {
-//         id: 576,
-//         type: "text",
-//         question: "qweq",
-//         description: "qweqweqewqweqweqwe",
-//         data: [],
-//       },
-//     ],
-//   },
-//   {
-//     id: 536,
-//     image_url: null,
-//     title: "newone",
-//     slug: "newone",
-//     status: true,
-//     description: "qqwertyuio",
-//     created_at: "2022-09-17 07:39:59",
-//     updated_at: "2022-09-17 07:39:59",
-//     expire_date: "2022-09-19",
-//     questions: [
-//       {
-//         id: 575,
-//         type: "select",
-//         question: "hi",
-//         description: "jhkjh",
-//         data: {
-//           options: [
-//             {
-//               uuid: "65833d40-cfda-462f-a643-0d3a7624b83a",
-//               text: "1",
-//             },
-//             {
-//               uuid: "48d9d353-955b-4314-b8ce-de5e465cc2e5",
-//               text: "2",
-//             },
-//           ],
-//         },
-//       },
-//     ],
-//   },
-//   {
-//     id: 536,
-//     image_url: null,
-//     title: "newone",
-//     slug: "newone",
-//     status: true,
-//     description: "qqwertyuio",
-//     created_at: "2022-09-17 07:39:59",
-//     updated_at: "2022-09-17 07:39:59",
-//     expire_date: "2022-09-19",
-//     questions: [
-//       {
-//         id: 575,
-//         type: "select",
-//         question: "hi",
-//         description: "jhkjh",
-//         data: {
-//           options: [
-//             {
-//               uuid: "65833d40-cfda-462f-a643-0d3a7624b83a",
-//               text: "1",
-//             },
-//             {
-//               uuid: "48d9d353-955b-4314-b8ce-de5e465cc2e5",
-//               text: "2",
-//             },
-//           ],
-//         },
-//       },
-//     ],
-//   },
-//   {
-//     id: 536,
-//     image_url: null,
-//     title: "newone",
-//     slug: "newone",
-//     status: true,
-//     description: "qqwertyuio",
-//     created_at: "2022-09-17 07:39:59",
-//     updated_at: "2022-09-17 07:39:59",
-//     expire_date: "2022-09-19",
-//     questions: [
-//       {
-//         id: 575,
-//         type: "select",
-//         question: "hi",
-//         description: "jhkjh",
-//         data: {
-//           options: [
-//             {
-//               uuid: "65833d40-cfda-462f-a643-0d3a7624b83a",
-//               text: "1",
-//             },
-//             {
-//               uuid: "48d9d353-955b-4314-b8ce-de5e465cc2e5",
-//               text: "2",
-//             },
-//           ],
-//         },
-//       },
-//     ],
-//   },
-//   {
-//     id: 536,
-//     image_url: null,
-//     title: "newone",
-//     slug: "newone",
-//     status: true,
-//     description: "qqwertyuio",
-//     created_at: "2022-09-17 07:39:59",
-//     updated_at: "2022-09-17 07:39:59",
-//     expire_date: "2022-09-19",
-//     questions: [
-//       {
-//         id: 575,
-//         type: "select",
-//         question: "hi",
-//         description: "jhkjh",
-//         data: {
-//           options: [
-//             {
-//               uuid: "65833d40-cfda-462f-a643-0d3a7624b83a",
-//               text: "1",
-//             },
-//             {
-//               uuid: "48d9d353-955b-4314-b8ce-de5e465cc2e5",
-//               text: "2",
-//             },
-//           ],
-//         },
-//       },
-//     ],
-//   },
-// ];
 const store = createStore({
   state: {
     user: {
       data: {},
       token: sessionStorage.getItem("TOKEN"),
     },
-    surveys: [],
+    surveys: {
+      isLoading: false,
+      data: [],
+    },
     currentSurvey: {
       isLoading: false,
       data: {},
@@ -215,6 +41,12 @@ const store = createStore({
     },
     setCurrentSurveyLoading: function (state, _isLoading) {
       state.currentSurvey.isLoading = _isLoading;
+    },
+    setSurveys: function (state, surveys) {
+      state.surveys.data = surveys.data;
+    },
+    setSurveysLoading: function (state, _isLoading) {
+      state.surveys.isLoading = _isLoading;
     },
     setCurrentSurvey: function (state, survey) {
       state.currentSurvey.data = survey.data;
@@ -261,6 +93,17 @@ const store = createStore({
         context.commit("setCurrentSurvey", result.data);
         context.commit("setCurrentSurveyLoading", false);
         return result.data.data;
+      });
+    },
+    deleteSurvey(context, id) {
+      return Axios.delete(`/survey/${id}`);
+    },
+    getSurveys: function (context) {
+      context.commit("setSurveysLoading", true);
+      return Axios.get("/survey").then((res) => {
+        context.commit("setSurveysLoading", false);
+        context.commit("setSurveys", res.data);
+        return res;
       });
     },
   },

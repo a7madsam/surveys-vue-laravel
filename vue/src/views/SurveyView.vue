@@ -3,11 +3,50 @@
     <template v-slot:header>
       <div class="flex justify-between items-center">
         <h1 class="text-3xl font-bold text-gray-900">
-          {{ model.id ? model.title : "Create Survey" }}
+          {{ this.$route.params.id ? model.title : "Create Survey" }}
         </h1>
+        <div
+          class="flex justify-between items-center"
+          v-if="this.$route.params.id"
+        >
+          <button
+            type="button"
+            class="
+              focus:outline-none
+              text-white
+              bg-red-700
+              hover:bg-red-800
+              focus:ring-4 focus:ring-red-300
+              font-medium
+              rounded-lg
+              text-sm
+              px-5
+              py-2.5
+              mr-2
+              mb-2
+              dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900
+            "
+            @click="deleteSurvey"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 -mt-1 inline-block"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+            Delete Survey
+          </button>
+        </div>
       </div>
     </template>
-    <form class="animate-fade-in-down" @submit.prevent="saveSurvey">
+    <MoonLoader v-if="isLoading" class="flex justify-center" />
+    <form class="animate-fade-in-down" @submit.prevent="saveSurvey" v-else>
       <div class="shadow sm:rounded-md sm:overflow-hidden">
         <!-- Survey Field -->
         <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
@@ -93,8 +132,9 @@
             <label for="title" class="block text-sm font-medium text-gray-700"
               >Title</label
             ><input
+              required
               type="text"
-              v-model="model.title"
+              v-model.trim="model.title"
               name="title"
               id="title"
               autocomplete="survey_title"
@@ -261,11 +301,16 @@
 <script>
 import PageComponent from "../components/PageComponent.vue";
 import QuestionEditor from "../components/editor/QuestionEditor.vue";
+import MoonLoader from "../components/MoonLoader.vue";
+
 import { v4 as uuidv4 } from "uuid";
+import { mapState } from "vuex";
+import Swal from "sweetalert2";
 export default {
   components: {
     PageComponent,
     QuestionEditor,
+    MoonLoader,
   },
   data() {
     return {
@@ -280,9 +325,13 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapState({
+      isLoading: (state) => state.currentSurvey.isLoading,
+    }),
+  },
   mounted() {
     if (this.$route.params.id) {
-      console.log("ahmad");
       this.$store.dispatch("getSurvey", this.$route.params.id);
     }
   },
@@ -309,7 +358,21 @@ export default {
             },
           });
         })
-        .catch((e) => {});
+        .catch((e) => {
+          let errString = "";
+          for (const item in e.response.data.errors) {
+            errString += `<li>${e.response.data.errors[item][0]}</li>`;
+          }
+          Swal.fire({
+            title: `Error`,
+            html: `<ul>${errString}</ul>`,
+            icon: "error",
+            backdrop: true,
+            allowOutsideClick: () => !this.$swal.isLoading(),
+          }).then(() => {
+            this.$store.dispatch("getSurvey", this.$route.params.id);
+          });
+        });
     },
     addQuestion: function (index) {
       const newQuestion = {
@@ -347,6 +410,46 @@ export default {
           return JSON.parse(JSON.stringify(question));
         }
         return ques;
+      });
+    },
+    deleteSurvey: function () {
+      Swal.fire({
+        titleText: `Are you sure you want to delete this survey?`,
+        html: `<div style="color: red">This operation can't be revert!!</div>`,
+        icon: "question",
+        confirmButtonText: "Yes",
+        cancelButtonText: "No",
+        showCancelButton: true,
+        showLoaderOnConfirm: true,
+        backdrop: true,
+        allowOutsideClick: () => !this.$swal.isLoading(),
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.$store
+            .dispatch("deleteSurvey", this.model.id)
+            .then(() => {
+              this.$router.push({
+                name: "surveys",
+              });
+            })
+            .catch((err) => {
+              let errString = "";
+              for (const item in err.response.data.errors) {
+                errString += `<li>${
+                  e.response.data.errors[item][0] || ""
+                }</li>`;
+              }
+              Swal.fire({
+                title: `Server Error`,
+                html: `<ul>${errString}</ul>`,
+                icon: "error",
+                backdrop: true,
+                allowOutsideClick: () => !this.$swal.isLoading(),
+              }).then(() => {
+                this.$store.dispatch("getSurvey", this.$route.params.id);
+              });
+            });
+        }
       });
     },
   },
