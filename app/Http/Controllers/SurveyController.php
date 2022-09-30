@@ -77,7 +77,7 @@ class SurveyController extends Controller
         if (isset($data['image'])) {
             $relativePath = $this->saveImage($data['image']);
             $data['image'] = $relativePath;
-            
+
             if ($survey->image) {
                 $absolutePath = public_path($survey->image);
                 File::delete($absolutePath);
@@ -104,6 +104,11 @@ class SurveyController extends Controller
             return abort(403, 'Unauthorized action.');
         }
         $survey->delete();
+        if ($survey->image) {
+            $absolutePath = public_path($survey->image);
+            File::delete($absolutePath);
+        }
+
         return response('', 204);
     }
 
