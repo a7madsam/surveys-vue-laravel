@@ -351,12 +351,17 @@ export default {
       this.$store
         .dispatch("saveSurvey", this.model)
         .then(({ data }) => {
-          console.log(data);
           this.$router.push({
             name: "SurveyView",
             params: {
               id: data.data?.id || data.id,
             },
+          });
+          this.$store.dispatch("showNotification", {
+            type: "success",
+            message: data.data?.id
+              ? "The survey created successfully"
+              : "The survey updated successfully",
           });
         })
         .catch((e) => {
@@ -364,15 +369,14 @@ export default {
           for (const item in e.response.data.errors) {
             errString += `<li>${e.response.data.errors[item][0]}</li>`;
           }
-          Swal.fire({
-            title: `Error`,
-            html: `<ul>${errString}</ul>`,
-            icon: "error",
-            backdrop: true,
-            allowOutsideClick: () => !this.$swal.isLoading(),
-          }).then(() => {
-            this.$store.dispatch("getSurvey", this.$route.params.id);
-          });
+          this.$store
+            .dispatch("showNotification", {
+              type: "error",
+              message: errString,
+            })
+            .then(() => {
+              this.$store.dispatch("getSurvey", this.$route.params.id);
+            });
         });
     },
     addQuestion: function (index) {
@@ -432,6 +436,10 @@ export default {
               this.$router.push({
                 name: "surveys",
               });
+              this.$store.dispatch("showNotification", {
+                type: "success",
+                message: "The survey deleted successfully",
+              });
             })
             .catch((err) => {
               let errString = "";
@@ -440,15 +448,14 @@ export default {
                   e.response.data.errors[item][0] || ""
                 }</li>`;
               }
-              Swal.fire({
-                title: `Server Error`,
-                html: `<ul>${errString}</ul>`,
-                icon: "error",
-                backdrop: true,
-                allowOutsideClick: () => !this.$swal.isLoading(),
-              }).then(() => {
-                this.$store.dispatch("getSurvey", this.$route.params.id);
-              });
+              this.$store
+                .dispatch("showNotification", {
+                  type: "error",
+                  message: errString,
+                })
+                .then(() => {
+                  this.$store.dispatch("getSurvey", this.$route.params.id);
+                });
             });
         }
       });

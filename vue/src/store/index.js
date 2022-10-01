@@ -1,5 +1,6 @@
 import { createStore } from "vuex";
 import Axios from "../axios";
+import Swal from "sweetalert2";
 const store = createStore({
   state: {
     user: {
@@ -104,6 +105,15 @@ const store = createStore({
         context.commit("setSurveysLoading", false);
         context.commit("setSurveys", res.data);
         return res;
+      });
+    },
+    showNotification: function (context, { type, message }) {
+      return Swal.fire({
+        title: type === "error" ? "Error" : "",
+        html: `<ul>${message}</ul>`,
+        icon: type,
+        backdrop: true,
+        allowOutsideClick: () => !Swal.isLoading(),
       });
     },
   },
