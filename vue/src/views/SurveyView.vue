@@ -351,10 +351,11 @@ export default {
       this.$store
         .dispatch("saveSurvey", this.model)
         .then(({ data }) => {
+          console.log(data);
           this.$router.push({
             name: "SurveyView",
             params: {
-              id: data.data.id,
+              id: data.data?.id || data.id,
             },
           });
         })
