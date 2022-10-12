@@ -9,6 +9,7 @@ const store = createStore({
     },
     surveys: {
       isLoading: false,
+      links: [],
       data: [],
     },
     currentSurvey: {
@@ -45,6 +46,7 @@ const store = createStore({
     },
     setSurveys: function (state, surveys) {
       state.surveys.data = surveys.data;
+      state.surveys.links = surveys.meta.links;
     },
     setSurveysLoading: function (state, _isLoading) {
       state.surveys.isLoading = _isLoading;
@@ -99,9 +101,10 @@ const store = createStore({
     deleteSurvey(context, id) {
       return Axios.delete(`/survey/${id}`);
     },
-    getSurveys: function (context) {
+    getSurveys: function (context, { url = null } = {}) {
+      url = url || "/survey";
       context.commit("setSurveysLoading", true);
-      return Axios.get("/survey").then((res) => {
+      return Axios.get(url).then((res) => {
         context.commit("setSurveysLoading", false);
         context.commit("setSurveys", res.data);
         return res;

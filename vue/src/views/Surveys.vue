@@ -41,23 +41,25 @@
       </div>
     </template>
     <MoonLoader v-if="isLoading" class="flex justify-center" />
-    <div
-      v-else
-      class="
-        grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))]
-        gap-5
-        justify-center
-        mx-[10px]
-      "
-    >
-      <SurveyListItem
-        v-for="(survey, index) in surveys"
-        :key="survey.id"
-        :survey="survey"
-        class="opacity-0 animate-fade-in-down"
-        :style="{ animationDelay: `${index * 0.1}s` }"
-        @delete="deleteSurvey"
-      />
+    <div v-else>
+      <div
+        class="
+          grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))]
+          gap-5
+          justify-center
+          mx-[10px]
+        "
+      >
+        <SurveyListItem
+          v-for="(survey, index) in surveys.data"
+          :key="survey.id"
+          :survey="survey"
+          class="opacity-0 animate-fade-in-down"
+          :style="{ animationDelay: `${index * 0.1}s` }"
+          @delete="deleteSurvey"
+        />
+      </div>
+      <Pagination :links="surveys.links" />
     </div>
   </PageComponent>
 </template>
@@ -65,16 +67,22 @@
 <script>
 import { mapState } from "vuex";
 import PageComponent from "../components/PageComponent.vue";
+import Pagination from "../components/Pagination.vue";
 import MoonLoader from "../components/MoonLoader.vue";
 import SurveyListItem from "../components/SurveyListItem.vue";
 export default {
-  components: { PageComponent, MoonLoader, SurveyListItem },
+  components: {
+    PageComponent,
+    MoonLoader,
+    SurveyListItem,
+    Pagination,
+  },
   mounted() {
     this.$store.dispatch("getSurveys").then((res) => {});
   },
   computed: {
     ...mapState({
-      surveys: (state) => state.surveys.data,
+      surveys: (state) => state.surveys,
       isLoading: (state) => state.surveys.isLoading,
     }),
   },
