@@ -119,6 +119,22 @@ const store = createStore({
         allowOutsideClick: () => !Swal.isLoading(),
       });
     },
+    getSurveyBySlug: function ({ commit }, slug) {
+      commit("setCurrentSurveyLoading", true);
+      return Axios.get(`/survey-by-slug/${slug}`)
+        .then((res) => {
+          commit("setCurrentSurvey", res.data);
+          commit("setCurrentSurveyLoading", false);
+          return res;
+        })
+        .catch((err) => {
+          commit("setCurrentSurveyLoading", false);
+          throw err;
+        });
+    },
+    saveSurveyAnswers: function ({ commit }, { surveyId, answers }) {
+      return Axios.post(`/survey/${surveyId}/answer`, { answers });
+    },
   },
   modules: {},
 });

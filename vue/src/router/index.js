@@ -7,6 +7,7 @@ import AuthLayout from "../components/AuthLayout.vue";
 import Surveys from "../views/Surveys.vue";
 import YourProfile from "../views/YourProfile.vue";
 import SurveyView from "../views/SurveyView.vue";
+import SurveyPublicView from "../views/SurveyPublicView.vue";
 import store from "../store";
 
 const routes = [
@@ -65,6 +66,11 @@ const routes = [
         component: Register,
       },
     ],
+  },
+  {
+    path: "/view/survey/:slug",
+    name: "SurveyPublicView",
+    component: SurveyPublicView,
   },
 ];
 const router = createRouter({
